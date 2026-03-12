@@ -221,3 +221,96 @@ Example response structure:
   "number": 0
 }
 ```
+
+
+## Screenshots
+
+### Province Operations
+
+#### Create Province 2
+![Create Province 2](screenshot/create%20province2.JPG)
+Demonstrates creating a province with POST request to `/api/provinces`. Shows the request body with provinceCode and provinceName fields, and the successful response with status 201 Created.
+
+#### Create Province 3
+![Create Province 3](screenshot/create%20province%203.JPG)
+Another example of province creation, showing how multiple provinces can be added to the system. Each province has a unique code and name.
+
+#### Get All Provinces
+![Get All Provinces](screenshot/get%20all%20province.JPG)
+Shows GET request to `/api/provinces` retrieving all provinces in the system. Returns a list of all created provinces with their IDs, codes, and names.
+
+### Location Operations
+
+#### Create Location
+![Create Location](screenshot/create%20location.JPG)
+Demonstrates POST request to `/api/locations` creating a location linked to a province. Shows the hierarchical structure with district, sector, cell, and village fields.
+
+#### Create Location 2
+![Create Location 2](screenshot/create%20location%202.JPG)
+Second location creation example showing different location details. Demonstrates the one-to-many relationship between Province and Location.
+
+#### Create Location 3
+![Create Location 3](screenshot/create%20location%203.JPG)
+Third location creation example, further demonstrating how locations are associated with provinces using provinceCode.
+
+#### Get All Locations
+![Get All Locations](screenshot/get%20all%20locations.JPG)
+GET request to `/api/locations` showing all locations with their complete details including province information, demonstrating the joined data from the province relationship.
+
+### User Operations
+
+#### Creating User
+![Creating User](screenshot/creating%20user.JPG)
+Shows POST request to `/api/users` with complete user data including profile information (phone, gender, dateOfBirth). Demonstrates the one-to-one relationship between User and UserProfile being created in a single request.
+
+#### Create User 2
+![Create User 2](screenshot/create%20user2.JPG)
+Another user creation example showing different user details. The response includes locationId and province information, demonstrating the relationship between User and Location.
+
+#### Get User by ID
+![Get User by ID](screenshot/get%20user%20by%20id.JPG)
+GET request to `/api/users/{id}` retrieving a specific user with all related data including profile information, location details, and province information in a single response.
+
+#### Update User
+![Update User](screenshot/update%20user.JPG)
+PUT request to `/api/users/{id}` demonstrating user update functionality. Shows how user information and profile data can be modified while maintaining relationships.
+
+#### Get Users by Province Code
+![Get Users by Province Code](screenshot/get%20users%20by%20province%20code.JPG)
+GET request to `/api/users/by-province-code/{provinceCode}` demonstrating the custom query method that filters users by province. Shows the property path navigation through User → Location → Province.
+
+#### Get User by Province Name
+![Get User by Province Name](screenshot/get%20user%20by%20province%20name.JPG)
+GET request to `/api/users/by-province-name/{provinceName}` showing another filtering option. Demonstrates Spring Data JPA's ability to generate queries from method names with nested property paths.
+
+### Room Operations
+
+#### Create Room
+![Create Room](screenshot/create%20room.JPG)
+POST request to `/api/rooms` creating a room with roomNumber, roomType, price, status, and locationId. Shows the one-to-many relationship between Location and Room.
+
+#### Get All Rooms
+![Get All Rooms](screenshot/get%20all%20rooms.JPG)
+GET request to `/api/rooms` retrieving all rooms in the system with their complete details including location information.
+
+#### Get Room by ID
+![Get Room by ID](screenshot/get%20room%20by%20id.JPG)
+GET request to `/api/rooms/{id}` showing detailed information for a specific room including its location and availability status.
+
+### Booking Operations
+
+#### Create Booking
+![Create Booking](screenshot/create%20booking.JPG)
+POST request to `/api/bookings` demonstrating the many-to-many relationship between User and Room through the Booking entity. Shows userId, roomId, checkInDate, and checkOutDate fields.
+
+#### Get All Bookings
+![Get All Bookings](screenshot/get%20all%20booking.JPG)
+GET request to `/api/bookings` retrieving all bookings with user and room information. Demonstrates how the Booking entity acts as an association table with additional attributes (dates, status).
+
+#### Get Booking by ID
+![Get Booking by ID](screenshot/get%20booking%20by%20id.JPG)
+GET request to `/api/bookings/{id}` showing detailed booking information including userFullName and roomNumber, demonstrating the relationships being resolved.
+
+#### Cancel Booking
+![Cancel Booking](screenshot/cancel%20booking.JPG)
+PUT/PATCH request to cancel a booking, showing how the bookingStatus is updated from PENDING to CANCELLED. Demonstrates state management in the booking lifecycle.
