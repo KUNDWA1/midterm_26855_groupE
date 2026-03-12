@@ -36,10 +36,7 @@ public class UserProfile {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    /**
-     * One-to-One: this is the owning side (it contains the FK user_id).
-     * unique=true ensures one profile per user at DB level.
-     */
+    // One profile belongs to one user
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;

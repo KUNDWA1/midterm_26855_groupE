@@ -34,13 +34,9 @@ public class UserServiceImpl implements UserService {
         this.userProfileRepository = userProfileRepository;
     }
 
-    /**
-     * existBy() requirement:
-     * - Before creating a user we call userRepository.existsByEmail(email)
-     * - Under the hood Spring Data generates a SQL EXISTS query.
-     */
     @Override
     public UserResponseDto createUser(UserRequestDto dto) {
+        // Check if email already exists
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new BadRequestException("User with email already exists");
         }
@@ -52,7 +48,6 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
         user.setEmail(dto.getEmail());
-        // In real production system we would hash the password (e.g. BCrypt).
         user.setPassword(dto.getPassword());
         user.setRole(dto.getRole());
         user.setLocation(location);
@@ -103,24 +98,12 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
-    /**
-     * Pagination + Sorting logic (assessment requirement):
-     * - The Pageable parameter contains pageNumber, pageSize and Sort information.
-     * - Spring Data converts this into SQL: LIMIT/OFFSET + ORDER BY.
-     * - This avoids loading all rows into memory and improves performance.
-     */
     @Override
     @Transactional(readOnly = true)
     public Page<UserResponseDto> getUsers(Pageable pageable) {
         return userRepository.findAll(pageable).map(this::toDto);
     }
 
-    /**
-     * Province filtering logic (assessment requirement):
-     * - We use nested property paths in method name:
-     *   findByLocationProvinceProvinceCode
-     * - Spring Data joins users -> locations -> provinces and applies WHERE province_code = ?
-     */
     @Override
     @Transactional(readOnly = true)
     public List<UserResponseDto> getUsersByProvinceCode(String provinceCode) {

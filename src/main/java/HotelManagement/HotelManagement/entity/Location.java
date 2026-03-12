@@ -38,25 +38,16 @@ public class Location {
     @Column(nullable = false, length = 100)
     private String village;
 
-    /**
-     * Many Locations belong to One Province.
-     * This is the owning side: it contains the FK column "province_id".
-     */
+    // Many locations belong to one province
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "province_id", nullable = false)
     private Province province;
 
-    /**
-     * One Location can have many Users.
-     * The FK lives in the "users" table (users.location_id).
-     */
+    // One location has many users
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
 
-    /**
-     * One Location can have many Rooms.
-     * The FK lives in the "rooms" table (rooms.location_id).
-     */
+    // One location has many rooms
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 }

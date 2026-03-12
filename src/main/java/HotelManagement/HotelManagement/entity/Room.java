@@ -45,18 +45,12 @@ public class Room {
     @Column(nullable = false, length = 20)
     private RoomStatus status;
 
-    /**
-     * Many Rooms can belong to one Location.
-     * FK lives in rooms.location_id
-     */
+    // Many rooms belong to one location
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    /**
-     * One Room can have many Bookings.
-     * FK lives in bookings.room_id
-     */
+    // One room can have many bookings
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 

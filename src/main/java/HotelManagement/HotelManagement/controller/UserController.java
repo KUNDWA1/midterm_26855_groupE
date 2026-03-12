@@ -46,16 +46,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    /**
-     * Pagination + Sorting endpoint (assessment requirement).
-     *
-     * Example:
-     *   GET /api/users?page=0&size=5&sort=firstName,asc
-     *
-     * - page, size come from query params
-     * - sort field and direction are mapped to a Sort object
-     * - Pageable encapsulates both paging and sorting
-     */
     @GetMapping
     public ResponseEntity<Page<UserResponseDto>> getUsers(
             @RequestParam(defaultValue = "0") int page,
@@ -71,19 +61,13 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * Retrieve all users from a given province using province code.
-     * This uses repository method: findByLocationProvinceProvinceCode
-     */
+    // Get users by province code
     @GetMapping("/by-province-code/{provinceCode}")
     public ResponseEntity<List<UserResponseDto>> getByProvinceCode(@PathVariable String provinceCode) {
         return ResponseEntity.ok(userService.getUsersByProvinceCode(provinceCode));
     }
 
-    /**
-     * Retrieve all users from a given province using province name.
-     * This uses repository method: findByLocationProvinceProvinceName
-     */
+    // Get users by province name
     @GetMapping("/by-province-name/{provinceName}")
     public ResponseEntity<List<UserResponseDto>> getByProvinceName(@PathVariable String provinceName) {
         return ResponseEntity.ok(userService.getUsersByProvinceName(provinceName));

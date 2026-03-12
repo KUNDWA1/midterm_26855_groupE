@@ -36,18 +36,12 @@ public class Booking {
     @Column(nullable = false, length = 20)
     private BookingStatus bookingStatus;
 
-    /**
-     * Many bookings belong to one user.
-     * FK lives in bookings.user_id
-     */
+    // Many bookings belong to one user
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    /**
-     * Many bookings belong to one room.
-     * FK lives in bookings.room_id
-     */
+    // Many bookings belong to one room
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;

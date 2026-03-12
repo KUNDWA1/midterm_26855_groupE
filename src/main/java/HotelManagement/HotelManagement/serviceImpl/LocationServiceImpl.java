@@ -26,14 +26,9 @@ public class LocationServiceImpl implements LocationService {
         this.provinceRepository = provinceRepository;
     }
 
-    /**
-     * Location saving logic:
-     * - We first load the Province using the provided provinceCode
-     * - Then we create a Location and assign that Province
-     * - JPA stores the foreign key province_id in the locations table
-     */
     @Override
     public LocationResponseDto createLocation(LocationRequestDto dto) {
+        // Find province by code
         Province province = provinceRepository.findByProvinceCode(dto.getProvinceCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Province not found with code: " + dto.getProvinceCode()));
 

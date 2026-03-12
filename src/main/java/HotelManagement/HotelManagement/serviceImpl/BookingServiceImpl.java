@@ -35,15 +35,9 @@ public class BookingServiceImpl implements BookingService {
         this.roomRepository = roomRepository;
     }
 
-    /**
-     * Booking logic:
-     * - We load User and Room using the provided IDs
-     * - We check basic room availability (status must be AVAILABLE and dates must be valid)
-     * - We create a Booking and set user + room (Many-to-Many via Booking)
-     * - DB will persist foreign keys: bookings.user_id and bookings.room_id
-     */
     @Override
     public BookingResponseDto createBooking(BookingRequestDto dto) {
+        // Load user and room
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + dto.getUserId()));
         Room room = roomRepository.findById(dto.getRoomId())
@@ -67,7 +61,6 @@ public class BookingServiceImpl implements BookingService {
 
         Booking saved = bookingRepository.save(booking);
 
-        // simple rule: mark room as BOOKED once a booking is created
         room.setStatus(RoomStatus.BOOKED);
 
         return toDto(saved);
@@ -90,7 +83,6 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
         booking.setBookingStatus(BookingStatus.CANCELLED);
-        // optionally free the room again
         booking.getRoom().setStatus(RoomStatus.AVAILABLE);
     }
 

@@ -7,22 +7,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    /**
-     * existBy() requirement:
-     * Spring Data derives SQL like:
-     * SELECT EXISTS(SELECT 1 FROM users WHERE email = ?)
-     */
+    // Check if email exists
     boolean existsByEmail(String email);
 
     Optional<User> findByEmail(String email);
 
-    /**
-     * Province filtering requirement:
-     * The property path navigates relationships:
-     * User -> location -> province -> provinceCode
-     */
+    // Find users by province code
     List<User> findByLocationProvinceProvinceCode(String provinceCode);
 
+    // Find users by province name
     List<User> findByLocationProvinceProvinceName(String provinceName);
 }
 

@@ -39,9 +39,6 @@ public class User {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    /**
-     * Stored as a hashed password (BCrypt) in service layer.
-     */
     @Column(nullable = false)
     private String password;
 
@@ -49,25 +46,16 @@ public class User {
     @Column(nullable = false, length = 20)
     private UserRole role;
 
-    /**
-     * Many Users can belong to one Location (where they are registered).
-     * FK lives in users.location_id
-     */
+    // Many users belong to one location
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    /**
-     * One-to-One relationship.
-     * UserProfile holds the FK (user_profiles.user_id) and is the owning side.
-     */
+    // One user has one profile
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private UserProfile userProfile;
 
-    /**
-     * One user can create many bookings.
-     * FK lives in bookings.user_id
-     */
+    // One user can have many bookings
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 }

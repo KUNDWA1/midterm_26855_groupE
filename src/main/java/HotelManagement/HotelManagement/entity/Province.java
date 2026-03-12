@@ -29,10 +29,7 @@ public class Province {
     @Column(nullable = false, unique = true, length = 100)
     private String provinceName;
 
-    /**
-     * One Province can have many Locations.
-     * The foreign key lives in the "locations" table (locations.province_id).
-     */
+    // One province has many locations
     @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Location> locations = new ArrayList<>();
 }
