@@ -1,3 +1,5 @@
+# midterm_26855_groupE
+
 ## Hotel Management System – Spring Boot Backend
 
 This project is a Spring Boot REST API for a simple hotel management system.  
@@ -219,4 +221,3 @@ Example response structure:
   "number": 0
 }
 ```
-
